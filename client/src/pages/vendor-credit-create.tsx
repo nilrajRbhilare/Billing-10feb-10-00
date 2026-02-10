@@ -301,11 +301,8 @@ export default function VendorCreditCreate() {
   });
 
   const filteredProducts = useMemo(() => {
-    if (!formData.vendorId || !billItemsData?.data) return products;
-    const purchasedItemIds = new Set(billItemsData.data.map((bi: any) => bi.itemId));
-    // If we have purchase history, only show those products. Otherwise show all.
-    return purchasedItemIds.size > 0 ? products.filter(p => purchasedItemIds.has(p.id)) : products;
-  }, [products, formData.vendorId, billItemsData]);
+    return products;
+  }, [products]);
 
   // Auto-populate items when bill items data is loaded
   useEffect(() => {
@@ -370,7 +367,7 @@ export default function VendorCreditCreate() {
       if (item.id === itemId) {
         const updated = { ...item, [field]: value };
         if (field === 'itemId') {
-          const product = products.find(p => p.id === value);
+          const product = products.find(p => String(p.id) === String(value));
           if (product) {
             updated.itemName = product.name;
             updated.description = product.description || '';
@@ -387,24 +384,12 @@ export default function VendorCreditCreate() {
               updated.billTotal = billItem.billTotal;
               updated.originalQuantity = billItem.originalQuantity;
               updated.availableQuantity = billItem.availableQuantity;
-              updated.quantity = Math.min(updated.quantity, billItem.availableQuantity || 0);
+              updated.quantity = updated.quantity;
               updated.amount = updated.quantity * updated.rate;
             }
           }
         }
         if (field === 'quantity' || field === 'rate') {
-          // Validate quantity against available quantity if present
-          if (field === 'quantity' && updated.availableQuantity !== undefined) {
-            if (value > updated.availableQuantity) {
-              toast({
-                title: "Quantity limit exceeded",
-                description: `Maximum available quantity for this item is ${updated.availableQuantity}`,
-                variant: "destructive"
-              });
-              updated.quantity = updated.availableQuantity;
-            }
-          }
-
           updated.amount = updated.quantity * updated.rate;
           // Recalculate tax amount when quantity or rate changes
           if (updated.tax) {
@@ -709,7 +694,7 @@ export default function VendorCreditCreate() {
                             >
                               <SelectTrigger data-testid={`select-item-${index}`}>
                                 <SelectValue placeholder="Select an item">
-                                  {item.itemName || products.find(p => p.id === item.itemId)?.name || "Select an item"}
+                                  {item.itemName || products.find(p => String(p.id) === String(item.itemId))?.name || "Select an item"}
                                 </SelectValue>
                               </SelectTrigger>
                               <SelectContent>
@@ -719,7 +704,7 @@ export default function VendorCreditCreate() {
                                   <SelectItem value="_empty" disabled>No items found</SelectItem>
                                 ) : (
                                   filteredProducts.map((product) => (
-                                    <SelectItem key={product.id} value={product.id}>
+                                    <SelectItem key={product.id} value={String(product.id)}>
                                       {product.name}
                                     </SelectItem>
                                   ))
