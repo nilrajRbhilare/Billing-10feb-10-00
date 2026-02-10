@@ -369,27 +369,6 @@ export default function EWayBillEdit() {
                         <p className="text-xs text-slate-500 font-medium">{formData.ewayBillNumber || 'Draft'}</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-3">
-                    <Button
-                        variant="ghost"
-                        className="text-red-500 hover:text-red-600 hover:bg-red-50"
-                        onClick={() => setDeleteDialogOpen(true)}
-                    >
-                        <Trash2 className="h-4 w-4 mr-2" /> Delete
-                    </Button>
-                    <div className="h-6 w-px bg-slate-200 mx-2" />
-                    <Button variant="outline" onClick={() => setLocation("/e-way-bills")} disabled={isSubmitting} className="border-slate-200">
-                        Cancel
-                    </Button>
-                    <Button onClick={() => handleUpdate(false)} disabled={isSubmitting} className="bg-[#002e46] hover:bg-[#001f2f] text-white font-semibold">
-                        Update
-                    </Button>
-                    {formData.status !== 'GENERATED' && (
-                        <Button onClick={() => handleUpdate(true)} disabled={isSubmitting} variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50">
-                            Update and Generate
-                        </Button>
-                    )}
-                </div>
             </div>
 
             <ScrollArea className="flex-1 overflow-y-auto no-scrollbar">
@@ -787,6 +766,30 @@ export default function EWayBillEdit() {
                 </div>
             </ScrollArea>
 
+            {/* Bottom Action Bar */}
+            <div className="flex-none bg-white border-t border-slate-200 px-6 py-4 flex items-center justify-between shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-20">
+                <Button
+                    variant="ghost"
+                    className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                    onClick={() => setDeleteDialogOpen(true)}
+                >
+                    <Trash2 className="h-4 w-4 mr-2" /> Delete
+                </Button>
+                <div className="flex items-center gap-3">
+                    <Button variant="outline" onClick={() => setLocation("/e-way-bills")} disabled={isSubmitting} className="border-slate-200">
+                        Cancel
+                    </Button>
+                    <Button onClick={() => handleUpdate(false)} disabled={isSubmitting} className="bg-[#002e46] hover:bg-[#001f2f] text-white font-semibold shadow-sm">
+                        Update
+                    </Button>
+                    {formData.status !== 'GENERATED' && (
+                        <Button onClick={() => handleUpdate(true)} disabled={isSubmitting} variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50">
+                            Update and Generate
+                        </Button>
+                    )}
+                </div>
+            </div>
+
             <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
@@ -804,3 +807,4 @@ export default function EWayBillEdit() {
         </div>
     );
 }
+// wdew

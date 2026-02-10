@@ -430,22 +430,11 @@ export default function EWayBillCreate() {
                         )}
                     </div>
                 </div>
-                <div className="flex items-center gap-3">
-                    <Button variant="outline" onClick={() => setLocation("/e-way-bills")} disabled={isSubmitting}>
-                        Cancel
-                    </Button>
-                    <Button variant="outline" onClick={() => handleSave(false)} disabled={isSubmitting} className="border-slate-200">
-                        Save
-                    </Button>
-                    <Button onClick={() => handleSave(true)} disabled={isSubmitting} className="bg-[#002e46] hover:bg-[#001f2f] text-white font-semibold">
-                        Save and Generate
-                    </Button>
-                </div>
             </div>
 
             {/* Main Content Area */}
             <ScrollArea className="flex-1 overflow-y-auto no-scrollbar">
-                <div className="max-w-5xl mx-auto p-6 space-y-6 pb-24">
+                <div className="max-w-5xl mx-auto p-6 space-y-6">
                     <Card className="shadow-sm border-slate-200">
                         <CardHeader className="pb-3 border-b border-slate-100 mb-4 bg-slate-50/50">
                             <div className="flex items-center gap-2">
@@ -841,6 +830,35 @@ export default function EWayBillCreate() {
                     )}
                 </div>
             </ScrollArea>
+
+            {/* Bottom Action Bar */}
+            <div className="flex-none bg-white border-t border-slate-200 px-6 py-4 flex items-center justify-between shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-20">
+                <Button
+                    variant="outline"
+                    onClick={() => setLocation("/e-way-bills")}
+                    disabled={isSubmitting}
+                    className="border-slate-200"
+                >
+                    Cancel
+                </Button>
+                <div className="flex items-center gap-3">
+                    <Button
+                        variant="outline"
+                        onClick={() => handleSave(false)}
+                        disabled={isSubmitting}
+                        className="border-slate-200"
+                    >
+                        Save
+                    </Button>
+                    <Button
+                        onClick={() => handleSave(true)}
+                        disabled={isSubmitting}
+                        className="bg-[#002e46] hover:bg-[#001f2f] text-white font-semibold shadow-sm"
+                    >
+                        Save and Generate
+                    </Button>
+                </div>
+            </div>
         </div>
     );
 }
